@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+
 public class ExerciceGroupingBy {
     enum TransactionsLevel {
         VERY_HI, HI, LO, ME;
@@ -56,17 +59,32 @@ public class ExerciceGroupingBy {
 
     private void groupBy1() {
         System.out.println("GroupBy1");
-
+        Map<Trader, List<Transaction>>transactionsByTrader = transactions
+                .stream()
+                .collect(groupingBy(Transaction::getTrader));
+        System.out.println(transactionsByTrader);
     }
 
     private void groupBy2() {
         System.out.println("GroupBy2");
-
+        Map<Trader,Long> numberOfTransactionsByTrader = transactions
+                .stream()
+                .collect(groupingBy(Transaction::getTrader,counting()));
+        System.out.println(numberOfTransactionsByTrader);
     }
 
 
     private void groupBy3() {
         System.out.println("GroupBy3");
+        Map<TransactionsLevel,List<Transaction>> transactionsByLevel = transactions
+                .stream()
+                .collect(groupingBy(transaction ->{
+                    if (transaction.getValue()>=1000) return TransactionsLevel.VERY_HI;
+                    else if (transaction.getValue()<1000 && transaction.getValue()>=800) return TransactionsLevel.HI;
+                    else if (transaction.getValue()<800 && transaction.getValue()>=600) return TransactionsLevel.ME;
+                    else return TransactionsLevel.LO;
+                }));
+        System.out.println(transactionsByLevel);
 
     }
 }

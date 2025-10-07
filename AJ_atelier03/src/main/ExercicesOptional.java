@@ -64,7 +64,7 @@ public class ExercicesOptional {
 
     private void optional1(List<Transaction> transactions) {
         System.out.println("optional1");
-
+        
     }
 
     private void optional2(List<Transaction> transactions) {
