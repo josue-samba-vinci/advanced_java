@@ -8,11 +8,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 import java.util.function.Function;
+import java.util.function.Consumer;
 
 public class ExerciceFunctionalInterface {
     public static class FonctionNomEmploye implements Function<Employe,String>{
         public String apply(Employe employe){
             return employe.getNom();
+        }
+    }
+    public static class TousLesEmployes implements Consumer<Employe>{
+        public void accept(Employe employe){
+            System.out.println(employe);
         }
     }
     public static List<Employe> employes;
@@ -72,8 +78,7 @@ public class ExerciceFunctionalInterface {
      * remplacer le lambda en paramètre par une instance de celle-ci.
      */
     private static void exForEach(){
-        employes.forEach(e -> System.out.println(e));
-
-
+        employes.forEach(new TousLesEmployes());
+        //on remplace le lambda par une instance de classe
     }
 }
