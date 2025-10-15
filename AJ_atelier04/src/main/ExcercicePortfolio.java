@@ -4,6 +4,7 @@ import domaine.Portfolio;
 import domaine.Trader;
 
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class ExcercicePortfolio {
@@ -111,8 +112,9 @@ public class ExcercicePortfolio {
         return portfolios.stream()
                 .flatMap(portfolio -> portfolio.getActions().stream())
                 .distinct() // Garde les actions uniques
-                .map(action -> Map.entry(action, prices.getOrDefault(action, 0.0))) // Crée des entrées (action, prix)
-                .sorted(Map.Entry.comparingByValue().thenComparing(Map.Entry.comparingByKey())) // Trie par prix croissant puis par symbole
+        .map(action -> Map.entry(action, prices.getOrDefault(action, 0.0))) // Crée des entrées (action, prix)
+        .sorted(Comparator.comparing((Map.Entry<String, Double> e) -> e.getValue())
+            .thenComparing((Map.Entry<String, Double> e) -> e.getKey())) // Trie par prix croissant puis par symbole
                 .collect(Collectors.toList());
     }
 
