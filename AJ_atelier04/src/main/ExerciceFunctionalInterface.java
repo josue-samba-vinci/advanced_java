@@ -45,10 +45,14 @@ public class ExerciceFunctionalInterface {
     }
 
     /**
-     * Replacer l'instatiation de la classe EmployeComparator par un lambda
+     * Remplacer l'instatiation de la classe EmployeComparator par un lambda
      */
     private static void exComparator() {
-        employes.sort(new EmployeComparator());
+       // employes.sort(new EmployeComparator());
+        employes.sort(
+                Comparator.comparingInt(Employe::getTaille).reversed()
+                        .thenComparing(Employe::getNom)
+        );
         System.out.println("Employés triés:");
         System.out.println(employes);
 
@@ -68,7 +72,6 @@ public class ExerciceFunctionalInterface {
                         .reversed())
                 .map(new FonctionNomEmploye());
         listeNom.forEach(System.out::println);
-
     }
 
 
@@ -79,6 +82,7 @@ public class ExerciceFunctionalInterface {
      */
     private static void exForEach(){
         employes.forEach(new TousLesEmployes());
+        System.out.println(employes);
         //on remplace le lambda par une instance de classe
     }
 }
