@@ -7,8 +7,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
+import java.util.function.Function;
 
 public class ExerciceFunctionalInterface {
+    public static class FonctionNomEmploye implements Function<Employe,String>{
+        public String apply(Employe employe){
+            return employe.getNom();
+        }
+    }
     public static List<Employe> employes;
     public static void main(String[] args) {
         employes = new ArrayList<>();
@@ -19,6 +25,10 @@ public class ExerciceFunctionalInterface {
         employes.add(new Employe(Genre.FEMME, 165, "Carole"));
         employes.add(new Employe(Genre.HOMME, 185, "Alex"));
         employes.add(new Employe(Genre.HOMME, 185, "Bart"));
+
+        Stream<Employe> listDesHommes = employes
+                .stream()
+                .filter(e -> e.getGenre() == Genre.HOMME);
 
         exMap();
 
@@ -44,12 +54,13 @@ public class ExerciceFunctionalInterface {
      * Ensuite créer une classe implémentant la functional interface correspondante pour
      * remplacer le lambda en paramètre par une instance de celle-ci.
      */
+
     private static void exMap() {
         Stream<String> listeNom = employes.stream()
                 .filter(e -> e.getGenre() == Genre.HOMME)
                 .sorted(Comparator.comparingInt(Employe::getTaille)
                         .reversed())
-                .map( e -> e.getNom());
+                .map(new FonctionNomEmploye());
         listeNom.forEach(System.out::println);
 
     }
